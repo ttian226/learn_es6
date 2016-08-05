@@ -110,6 +110,7 @@ dedupe([1, 1, 3, 4, 2, 3, 4, 5]); //[1, 3, 4, 2, 5]
 * `Set.prototype.values()`返回键值的遍历器
 * `Set.prototype.keys()` Set没有键名只有键值，所以keys()和values()的行为一致
 * `Set.prototype.entries()`返回键值对的遍历器
+* `Set.prototype.forEach`遍历Set中的每个元素
 
 ```javascript
 let set = new Set(['red', 'green', 'blue']);
@@ -131,7 +132,7 @@ for (var item of set.entries()) {
 // ["blue", "blue"]
 ```
 
-Set结构的实例默认可以遍历，它的默认遍历器的生成函数就是它的values方法
+Set结构的实例默认可以遍历，它的默认遍历器的生成函数就是它的values方法。因为`Set.prototype[Symbol.iterator] === Set.prototype.values //true`
 
 ```javascript
 let set = new Set(['red', 'green', 'blue']);
@@ -145,5 +146,48 @@ for (var item of set) {
 // blue
 ```
 
+使用forEach遍历Set中的值
 
+```javascript
+let set = new Set([1, 2, 3]);
 
+set.forEach((value, key) => console.log(value * 2));
+// 2
+// 4
+// 6
+```
+
+扩展运算符`...`内部使用`for...of`循环（调用Iterator接口），所以可以用于Set结构
+
+```javascript
+let set = new Set(['red', 'blue', 'green']);
+let arr = [...set];
+// ["red", "blue", "green"]
+```
+
+结合扩展符`...`实现Set并集和交集
+
+```javascript
+let a = new Set([1, 2, 3]);
+let b = new Set([4, 3, 2]);
+
+// 并集
+let union = new Set([...a, ...b]);
+
+// 交集
+let intersect = new Set([...a].filter(x => b.has(x)));
+```
+
+利用原有的Set结构映射出一个新的Set结构
+
+```javascript
+var set = new Set([1, 2, 3]);
+
+// 第一种方法，通过数组的map方法映射一个新的数组作为初始化Set的参数
+set = new Set([...set].map(val => val * 2));
+
+// 第二种方法，通过Array.from来返回一个映射的数组作为初始化Set的参数
+set = new Set(Array.from([...set], val => val * 2));
+
+// 两种方法set的值是2, 4, 6
+```

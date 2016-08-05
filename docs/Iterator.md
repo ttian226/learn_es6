@@ -48,3 +48,28 @@ console.log(next4.value, next4.done);
 //undefined true
 ```
 
+模拟一个数组的遍历器函数
+
+```javascript
+let arr = ['a', 'b', 'c'];
+
+var it = makeIterator(arr);
+it.next();  //{ value: "a", done: false }
+it.next();  //{ value: "b", done: false }
+it.next();  //{ value: "c", done: false }
+it.next();  //{ value: undefined, done: true }
+
+function makeIterator(array) {
+  var nextIndex = 0;    //这里使用了闭包，对应一个遍历器对象nextIndex是唯一的。
+  return {
+    next: function () {
+      return nextIndex < array.length ?
+        {next: array[nextIndex++], done: false} :
+        {next: undefined, done: true}
+    }
+  }
+}
+```
+
+
+

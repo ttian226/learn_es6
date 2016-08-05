@@ -78,6 +78,16 @@ var items = new Set([1, 2, 3, 4, 5]);
 Array.from(items);  // [1, 2, 3, 4, 5]
 ```
 
+`Array.from`还可以接受一个回调函数作为第二个参数，作用类似于数组的`map`方法，用来对每个元素进行处理，将处理后的值放入返回的数组。
+
+```javascript
+var set = new Set([2, 3, 4]);
+
+var arr1 = Array.from(set).map(i => i * 2); //[4, 6, 8]
+// 等价于上面方法
+var arr2 = Array.from(set, i => i * 2); //[4, 6, 8]
+```
+
 #### [Array.of()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of)
 
 Array.of()用于将一组值转换为数组
